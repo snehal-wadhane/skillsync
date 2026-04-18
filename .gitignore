@@ -1,0 +1,53 @@
+# Environment
+.env
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Data
+data/raw/**/*.pdf
+data/raw/**/*.csv
+data/raw/**/*.xlsx
+data/raw/**/*.json
+data/processed/
+data/embeddings_cache/
+!data/raw/**/.gitkeep
+
+# Models
+models/
+*.gguf
+*.bin
+*.safetensors
+
+# Docker volumes (names, not host paths — safety)
+qdrant_storage/
+postgres_data/
+redis_data/
+minio_data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Jupyter
+.ipynb_checkpoints/

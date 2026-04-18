@@ -1,0 +1,141 @@
+# SkillSync — Local development stack
+#
+# Services:
+#   qdrant       — vector DB for embeddings (BGE-M3)
+#   postgres     — relational DB for skills, trends, curriculum versions
+#   redis        — cache for embeddings + session state
+#   langfuse-db  — separate postgres for Langfuse
+#   langfuse     — LLM observability (traces every LLM call)
+#   minio        — S3-compatible object storage for raw PDFs + generated reports
+#
+# Ollama is NOT containerized — runs natively on host for direct GPU access.
+# Our Python code also runs on host during development (in venv).
+#
+# Usage:
+#   docker compose up -d              # start all
+#   docker compose logs -f qdrant     # tail logs for one service
+#   docker compose down               # stop (keeps data)
+#   docker compose down -v            # stop and DELETE all data (careful)
+
+name: skillsync
+
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.12.4
+    container_name: skillsync-qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"   # HTTP API + dashboard
+      - "6334:6334"   # gRPC
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    environment:
+      QDRANT__SERVICE__HTTP_PORT: 6333
+      QDRANT__SERVICE__GRPC_PORT: 6334
+      QDRANT__LOG_LEVEL: INFO
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c ':> /dev/tcp/127.0.0.1/6333' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: skillsync-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-skillsync}
+      POSTGRES_USER: ${POSTGRES_USER:-skillsync}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me_locally}
+      # Performance tuning for dev
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - type: bind
+        source: ./scripts/init_db.sql
+        target: /docker-entrypoint-initdb.d/01_init.sql
+        read_only: true
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-skillsync} -d ${POSTGRES_DB:-skillsync}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: skillsync-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 512mb --maxmemory-policy allkeys-lru --save 60 1
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- Langfuse (LLM observability) ---
+  # Separate postgres because Langfuse manages its own schema aggressively
+  langfuse-db:
+    image: postgres:16-alpine
+    container_name: skillsync-langfuse-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: langfuse
+      POSTGRES_USER: langfuse
+      POSTGRES_PASSWORD: ${LANGFUSE_DB_PASSWORD:-langfuse_local}
+    volumes:
+      - langfuse_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U langfuse -d langfuse"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  langfuse:
+    image: langfuse/langfuse:2
+    container_name: skillsync-langfuse
+    restart: unless-stopped
+    depends_on:
+      langfuse-db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://langfuse:${LANGFUSE_DB_PASSWORD:-langfuse_local}@langfuse-db:5432/langfuse
+      NEXTAUTH_SECRET: ${LANGFUSE_NEXTAUTH_SECRET:-local_dev_secret_change_in_prod}
+      SALT: ${LANGFUSE_SALT:-local_salt_change_in_prod}
+      NEXTAUTH_URL: http://localhost:3000
+      TELEMETRY_ENABLED: "false"
+      LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: "true"
+
+  # --- MinIO (S3-compatible storage for raw PDFs + reports) ---
+  minio:
+    image: minio/minio:latest
+    container_name: skillsync-minio
+    restart: unless-stopped
+    ports:
+      - "9000:9000"   # S3 API
+      - "9001:9001"   # Web console
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-skillsync}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-change_me_locally}
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  qdrant_storage:
+  postgres_data:
+  redis_data:
+  langfuse_db_data:
+  minio_data:

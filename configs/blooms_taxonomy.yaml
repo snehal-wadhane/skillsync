@@ -1,0 +1,182 @@
+# Bloom's Revised Taxonomy (Anderson & Krathwohl, 2001)
+# Used by SkillSync's Bloom's Depth Analysis feature.
+
+levels:
+  1_remember:
+    label: "Remember"
+    description: "Recall facts and basic concepts"
+    cognitive_demand: "low"
+    verbs:
+      - define
+      - describe
+      - identify
+      - label
+      - list
+      - name
+      - recall
+      - recognize
+      - state
+      - memorize
+      - repeat
+      - reproduce
+      - match
+      - select
+      - duplicate
+      - retrieve
+
+  2_understand:
+    label: "Understand"
+    description: "Explain ideas or concepts"
+    cognitive_demand: "low"
+    verbs:
+      - classify
+      - compare
+      - contrast
+      - demonstrate
+      - explain
+      - illustrate
+      - infer
+      - interpret
+      - outline
+      - paraphrase
+      - summarize
+      - translate
+      - discuss
+      - predict
+      - report
+      - review
+      - estimate
+      - express
+
+  3_apply:
+    label: "Apply"
+    description: "Use information in new situations"
+    cognitive_demand: "medium"
+    verbs:
+      - apply
+      - calculate
+      - compute
+      - construct
+      - demonstrate
+      - develop
+      - execute
+      - implement
+      - operate
+      - practice
+      - schedule
+      - sketch
+      - solve
+      - use
+      - utilize
+      - employ
+      - dramatize
+      - modify
+      - show
+      - write
+
+  4_analyze:
+    label: "Analyze"
+    description: "Draw connections among ideas; differentiate; organize"
+    cognitive_demand: "high"
+    verbs:
+      - analyze
+      - break down
+      - categorize
+      - compare
+      - contrast
+      - deconstruct
+      - differentiate
+      - discriminate
+      - distinguish
+      - examine
+      - experiment
+      - identify
+      - inspect
+      - investigate
+      - organize
+      - question
+      - separate
+      - test
+      - attribute
+      - outline
+      - structure
+      - integrate
+
+  5_evaluate:
+    label: "Evaluate"
+    description: "Justify a stand or decision"
+    cognitive_demand: "high"
+    verbs:
+      - appraise
+      - argue
+      - assess
+      - choose
+      - conclude
+      - critique
+      - defend
+      - evaluate
+      - judge
+      - justify
+      - prioritize
+      - rate
+      - recommend
+      - support
+      - validate
+      - value
+      - check
+      - weigh
+      - measure
+
+  6_create:
+    label: "Create"
+    description: "Produce new or original work; design; compose"
+    cognitive_demand: "highest"
+    verbs:
+      - assemble
+      - build
+      - compose
+      - construct
+      - create
+      - design
+      - develop
+      - devise
+      - formulate
+      - generate
+      - invent
+      - plan
+      - produce
+      - propose
+      - synthesize
+      - write
+      - compile
+      - originate
+      - derive
+      - hypothesize
+      - engineer
+      - architect
+
+# Verbs that appear in multiple levels (ambiguous, need context)
+ambiguous_verbs:
+  - demonstrate   # could be Understand (show comprehension) OR Apply (perform)
+  - show          # could be Understand OR Apply
+  - write         # could be Apply (short answer) OR Create (research paper)
+  - identify      # could be Remember OR Analyze
+  - compare       # could be Understand OR Analyze
+  - outline       # could be Understand OR Analyze
+  - develop       # could be Apply OR Create
+
+# CS/IT-specific verb hints
+engineering_hints:
+  simulate: 3_apply
+  model: 6_create
+  troubleshoot: 4_analyze
+  optimize: 5_evaluate
+  debug: 4_analyze
+  refactor: 6_create
+  code: 3_apply
+  implement: 3_apply
+  prototype: 6_create
+  validate: 5_evaluate
+  verify: 5_evaluate
+  deploy: 3_apply
+  integrate: 6_create

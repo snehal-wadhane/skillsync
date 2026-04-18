@@ -1,0 +1,139 @@
+# NBA SAR 2025 Program Outcomes (GAPC v4.0 / Washington Accord 2021)
+# Effective: July 2024 (Tier-I), January 2025 (Tier-II)
+# Reference: nbaind.org revised SAR format
+#
+# Note: NBA transitioned from 12 POs to 11 POs in SAR 2025.
+# This config is versioned — when NBA updates again, add a new file
+# (e.g. nba_po_2027.yaml) and bump `active_version` in app config.
+
+version: "SAR-2025"
+source: "NBA India Revised SAR Format 2024-25 (GAPC v4.0)"
+total_pos: 11
+
+program_outcomes:
+  PO1:
+    title: "Engineering Knowledge"
+    description: >
+      Apply knowledge of mathematics, natural science, engineering fundamentals,
+      and engineering specialization to the solution of complex engineering problems.
+    focus_keywords: [mathematics, science, engineering fundamentals, complex problems]
+    bloom_expected_min: "Apply"
+
+  PO2:
+    title: "Problem Analysis"
+    description: >
+      Identify, formulate, research literature, and analyze complex engineering problems
+      to reach substantiated conclusions, with consideration for the holistic nature of the problem.
+    focus_keywords: [problem identification, formulation, literature review, analysis]
+    bloom_expected_min: "Analyze"
+
+  PO3:
+    title: "Design/Development of Solutions"
+    description: >
+      Design solutions for complex engineering problems and design system components
+      or processes that meet specified needs with appropriate consideration for
+      public health, safety, and cultural, societal, and environmental considerations.
+      Sustainability is intrinsic to design.
+    focus_keywords: [design, solutions, sustainability, safety, societal impact]
+    bloom_expected_min: "Create"
+    notes: "Sustainability is now MANDATORY in design context (GAPC v4.0 change)"
+
+  PO4:
+    title: "Conduct Investigations of Complex Problems"
+    description: >
+      Conduct investigations of complex problems using research-based knowledge
+      and research methods including design of experiments, analysis and interpretation
+      of data, and synthesis of information to provide valid conclusions.
+    focus_keywords: [research methods, experimentation, data analysis, synthesis]
+    bloom_expected_min: "Analyze"
+
+  PO5:
+    title: "Engineering Tool Usage"
+    description: >
+      Create, select, and apply appropriate techniques, resources, and modern
+      engineering and IT tools, including prediction and modeling, to complex
+      engineering activities, with an understanding of the limitations.
+    focus_keywords: [tools, IT, modeling, prediction, limitations]
+    bloom_expected_min: "Apply"
+    notes: "Expanded from 'Modern Tool Usage' — now includes traditional + modern tools"
+
+  PO6:
+    title: "The Engineer and The World"
+    description: >
+      Analyze and evaluate societal and environmental aspects while solving complex
+      engineering problems for its impact on sustainability with reference to economy,
+      health, safety, legal framework, culture and environment.
+    focus_keywords: [society, environment, sustainability, economy, legal, culture]
+    bloom_expected_min: "Evaluate"
+    notes: "Merged old PO6 (Society) + PO7 (Environment) with explicit sustainability focus"
+
+  PO7:
+    title: "Ethics"
+    description: >
+      Apply ethical principles and commit to professional ethics and responsibilities,
+      norms of engineering practice, and embrace diversity and inclusive behavior
+      in engineering practice.
+    focus_keywords: [ethics, professional responsibility, diversity, inclusion]
+    bloom_expected_min: "Apply"
+    notes: "Expanded to include diversity & inclusive behavior"
+
+  PO8:
+    title: "Individual and Collaborative Teamwork"
+    description: >
+      Function effectively as an individual, and as a member or leader in diverse
+      and inclusive teams, and in multi-disciplinary settings.
+    focus_keywords: [teamwork, leadership, diversity, multidisciplinary]
+    bloom_expected_min: "Apply"
+
+  PO9:
+    title: "Communication"
+    description: >
+      Communicate effectively on complex engineering activities with the engineering
+      community and with society at large, such as being able to comprehend and
+      write effective reports and design documentation, make effective presentations,
+      and give and receive clear instructions.
+    focus_keywords: [communication, reports, presentations, documentation]
+    bloom_expected_min: "Apply"
+
+  PO10:
+    title: "Project Management and Finance"
+    description: >
+      Apply knowledge and understanding of engineering management principles and
+      economic decision-making and apply these to one's own work, as a member and
+      leader in a team, to manage projects in multidisciplinary environments.
+    focus_keywords: [project management, finance, economics, leadership]
+    bloom_expected_min: "Apply"
+
+  PO11:
+    title: "Lifelong Learning"
+    description: >
+      Recognize the need for, and have the preparation and ability for i) independent
+      and life-long learning ii) adaptability to new and emerging technologies and
+      iii) critical thinking in the broadest context of technological change.
+    focus_keywords: [lifelong learning, adaptability, emerging tech, critical thinking]
+    bloom_expected_min: "Evaluate"
+
+# Program Specific Outcomes (PSOs) — typical CS/IT examples.
+# Departments can customize; these are defaults for the pilot.
+program_specific_outcomes_cs_it:
+  PSO1:
+    title: "Software Development Competence"
+    description: >
+      Apply software engineering principles and modern frameworks to design,
+      develop, test, and maintain scalable software systems for industry needs.
+  PSO2:
+    title: "Intelligent Systems & Data"
+    description: >
+      Design and deploy intelligent systems using AI/ML, data analytics, and
+      cloud-native technologies to solve real-world problems.
+
+co_po_mapping_correlation_levels:
+  "3": "Substantial / Strong correlation"
+  "2": "Moderate correlation"
+  "1": "Slight / Low correlation"
+  "0": "No correlation (leave blank in matrix)"
+
+attainment_targets:
+  default_target: 2.0
+  max_recommended: 2.8
+  flag_threshold: 3.0  # Above this, NBA suspects manipulation

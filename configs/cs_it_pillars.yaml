@@ -1,0 +1,139 @@
+# CS/IT Skill Category Seed
+#
+# This file defines the 12 major pillars of CS/IT education. Every skill we
+# extract (from syllabi OR job descriptions) will be classified into one of
+# these categories. This gives us a stable analytical lens regardless of
+# how fast specific technologies change.
+#
+# Example: "React", "Vue", "Angular", "Svelte" are all skills that belong to
+# `frontend_web_dev`. Even as frameworks rise and fall, the pillar stays stable.
+#
+# Used by:
+#   - Skill extractor (target categories for classification)
+#   - Gap analyzer (compute coverage % per pillar)
+#   - Report generator (radar chart dimensions)
+#   - Multi-agent debate (Pedagogy agent uses pillar balance as heuristic)
+#
+# Source: synthesized from ACM CS Curricula 2023, AICTE Model Curriculum CSE,
+# IEEE Software Engineering Body of Knowledge (SWEBOK), and NASSCOM FutureSkills framework.
+
+version: "1.0"
+domain: "CS_IT"
+
+pillars:
+  # --- Foundations (mostly stable, slow-changing) ---
+  cs_foundations:
+    label: "CS Foundations"
+    description: "Discrete math, algorithms, data structures, complexity theory"
+    typical_courses: [Discrete Mathematics, Data Structures, Algorithms, Theory of Computation]
+    nba_pos_primary: [PO1, PO2]
+    stability: "stable"   # technologies here barely change
+    example_skills: [algorithms, data_structures, complexity_analysis, graph_theory, discrete_math]
+
+  programming_fundamentals:
+    label: "Programming Fundamentals"
+    description: "Core programming skills, paradigms, language mastery"
+    typical_courses: [Programming in C, OOP, Python, Functional Programming]
+    nba_pos_primary: [PO1, PO5]
+    stability: "stable"
+    example_skills: [python, java, c_plus_plus, oop, functional_programming, recursion, debugging]
+
+  systems_architecture:
+    label: "Computer Systems"
+    description: "OS, computer architecture, compilers, computer networks"
+    typical_courses: [Operating Systems, Computer Networks, Compiler Design, Computer Architecture]
+    nba_pos_primary: [PO1, PO2, PO4]
+    stability: "stable"
+    example_skills: [operating_systems, linux, networking, tcp_ip, compilers, architecture]
+
+  databases:
+    label: "Databases"
+    description: "RDBMS, NoSQL, data modeling, query optimization"
+    typical_courses: [DBMS, Advanced Databases, Distributed Databases]
+    nba_pos_primary: [PO1, PO3, PO5]
+    stability: "evolving"   # NewSQL, graph DBs, vector DBs are changing things
+    example_skills: [sql, postgresql, mongodb, redis, data_modeling, indexing, vector_databases]
+
+  # --- Applied / Changing Fast ---
+  software_engineering:
+    label: "Software Engineering"
+    description: "SDLC, agile, testing, version control, code quality"
+    typical_courses: [Software Engineering, Testing, Project Management]
+    nba_pos_primary: [PO3, PO8, PO10]
+    stability: "evolving"
+    example_skills: [git, agile, scrum, unit_testing, ci_cd, code_review, uml, software_design]
+
+  web_development:
+    label: "Web Development"
+    description: "Frontend, backend, full-stack, APIs"
+    typical_courses: [Web Technologies, Full-Stack Development, Advanced Web Programming]
+    nba_pos_primary: [PO3, PO5]
+    stability: "volatile"   # frameworks change rapidly
+    example_skills: [html_css, javascript, react, nextjs, nodejs, rest_api, graphql, fastapi]
+
+  mobile_development:
+    label: "Mobile Development"
+    description: "iOS, Android, cross-platform mobile apps"
+    typical_courses: [Mobile Application Development, Android Programming]
+    nba_pos_primary: [PO3, PO5]
+    stability: "volatile"
+    example_skills: [android, kotlin, swift, flutter, react_native]
+
+  ai_ml:
+    label: "AI / Machine Learning"
+    description: "ML, DL, NLP, CV, GenAI, MLOps"
+    typical_courses: [Machine Learning, Deep Learning, AI, NLP, Computer Vision]
+    nba_pos_primary: [PO1, PO2, PO3, PO4]
+    stability: "volatile"
+    example_skills: [supervised_learning, pytorch, tensorflow, transformers, llms, rag, prompt_engineering, mlops]
+
+  data_engineering:
+    label: "Data Engineering & Analytics"
+    description: "ETL, big data, data pipelines, analytics, BI"
+    typical_courses: [Big Data Analytics, Data Warehousing, Data Engineering]
+    nba_pos_primary: [PO3, PO4, PO5]
+    stability: "evolving"
+    example_skills: [sql, spark, airflow, pandas, etl, data_warehousing, tableau, powerbi]
+
+  cloud_devops:
+    label: "Cloud & DevOps"
+    description: "Cloud platforms, containerization, IaC, orchestration"
+    typical_courses: [Cloud Computing, DevOps, Distributed Systems]
+    nba_pos_primary: [PO3, PO5, PO10]
+    stability: "evolving"
+    example_skills: [aws, azure, gcp, docker, kubernetes, terraform, ci_cd, ansible, linux_admin]
+
+  cybersecurity:
+    label: "Cybersecurity"
+    description: "InfoSec, cryptography, network security, ethical hacking"
+    typical_courses: [Cryptography, Network Security, Information Security, Ethical Hacking]
+    nba_pos_primary: [PO1, PO2, PO6, PO7]
+    stability: "evolving"
+    example_skills: [cryptography, network_security, penetration_testing, owasp, zero_trust, siem]
+
+  # --- Professional & Soft ---
+  professional_skills:
+    label: "Professional & Soft Skills"
+    description: "Communication, ethics, teamwork, entrepreneurship"
+    typical_courses: [Technical Communication, Professional Ethics, Project Work, Internship]
+    nba_pos_primary: [PO7, PO8, PO9, PO10, PO11]
+    stability: "stable"
+    example_skills: [technical_writing, presentation, teamwork, ethics, project_management, leadership]
+
+# Stability definitions (used by temporal decay engine)
+stability_weights:
+  stable: 1.0        # expected half-life > 10 years (algorithms, OS concepts)
+  evolving: 0.6      # 3-10 year half-life (cloud platforms, databases)
+  volatile: 0.3      # < 3 year half-life (JS frameworks, specific ML libs)
+
+# Emerging pillars to track (not yet a full pillar, but skills here should be flagged)
+emerging_watchlist:
+  - quantum_computing
+  - edge_ai
+  - webassembly
+  - rust_systems_programming
+  - llm_ops
+  - ai_agents
+  - federated_learning
+  - blockchain_dapps
+  - digital_twins
